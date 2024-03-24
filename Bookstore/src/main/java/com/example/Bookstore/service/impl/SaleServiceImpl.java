@@ -1,9 +1,13 @@
 package com.example.Bookstore.service.impl;
 
+import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.Sale;
+import com.example.Bookstore.model.User;
+import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.repository.SaleRepository;
 import com.example.Bookstore.service.SaleService;
 import jakarta.transaction.Transactional;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +17,11 @@ import java.util.List;
 public class SaleServiceImpl implements SaleService {
 
     private final SaleRepository saleRepository;
+    private final BookRepository bookRepository;
 
-    public SaleServiceImpl(SaleRepository saleRepository) {
+    public SaleServiceImpl(SaleRepository saleRepository, BookRepository bookRepository) {
         this.saleRepository = saleRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -26,5 +32,23 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Sale saveSale(Sale newSale) {
         return saleRepository.save(newSale);
+    }
+
+    @Override
+    public Sale makeSale(List<Book> books, User user) throws Exception {
+        for(Book b : books)
+            if(b.getStock() == 0){
+                throw new Exception("not enough books in stock");
+            }
+        for(Book b : books){
+            b.setStock(b.getStock() - 1);
+            bookRepository.save(b);
+        }
+        Sale sale = new Sale();
+        sale.setBooks(books);
+        sale.setUser(user);
+        sale.setSum();
+        sale.setDate(DateTimeLiteralExpression.DateTime.DATE);
+        return saleRepository.save(sale);
     }
 }

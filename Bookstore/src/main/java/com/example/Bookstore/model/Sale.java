@@ -35,4 +35,10 @@ public class Sale {
                 ", books=" + books +
                 '}';
     }
+
+    public void setSum() {
+        sum = 0;
+        for(Book b : books)
+            sum += b.getPrice();
+    }
 }
