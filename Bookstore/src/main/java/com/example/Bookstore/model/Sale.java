@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int sum;
-    private DateTimeLiteralExpression.DateTime date;
+    private LocalDate date;
     @ManyToOne
     private User user;
     @ManyToMany
@@ -27,12 +27,15 @@ public class Sale {
 
     @Override
     public String toString() {
+//        StringBuilder booksString = new StringBuilder("\n");
+//        for(Book b : books)
+//            booksString.append(b.toString()).append("\n");
         return "Sale{" +
-                "id=" + id +
+                "id=" + id.toString() +
                 ", sum=" + sum +
-                ", date=" + date +
-                ", user=" + user +
-                ", books=" + books +
+                ", date=" + date.toString() +
+                ", user=" + user.toString() +
+//                ", books=" + booksString +
                 '}';
     }
 

@@ -7,9 +7,9 @@ import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.repository.SaleRepository;
 import com.example.Bookstore.service.SaleService;
 import jakarta.transaction.Transactional;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -48,7 +48,7 @@ public class SaleServiceImpl implements SaleService {
         sale.setBooks(books);
         sale.setUser(user);
         sale.setSum();
-        sale.setDate(DateTimeLiteralExpression.DateTime.DATE);
+        sale.setDate(LocalDate.now());
         return saleRepository.save(sale);
     }
 }

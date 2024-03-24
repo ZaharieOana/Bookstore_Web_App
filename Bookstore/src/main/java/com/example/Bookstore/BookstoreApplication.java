@@ -3,6 +3,7 @@ package com.example.Bookstore;
 import com.example.Bookstore.constants.UserType;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.BookType;
+import com.example.Bookstore.model.Sale;
 import com.example.Bookstore.model.User;
 import com.example.Bookstore.service.BookService;
 import com.example.Bookstore.service.BookTypeService;
@@ -69,6 +70,9 @@ public class BookstoreApplication {
 			List<Book> books = bookService.findAll();
 			List<BookType> bookTypes = bookTypeService.findAll();
 
+			saleService.makeSale(books, user1);
+			List<Sale> sales = saleService.findAll();
+
 			System.out.println("Users:");
 			for(User u : users)
 				System.out.println(u);
@@ -78,6 +82,9 @@ public class BookstoreApplication {
 			System.out.println("Book Types:");
 			for(BookType t : bookTypes)
 				System.out.println(t);
+			System.out.println("Sales:");
+			for(Sale s : sales)
+				System.out.println(s);
 
 			System.out.println("Find book by title \"IT\": " + bookService.findBookByTitle("IT"));
 			System.out.println("Find user by email \"danvlad@gmail.com\": " + userService.findUserByEmail("danvlad@gmail.com"));
@@ -87,6 +94,11 @@ public class BookstoreApplication {
 			System.out.println("Users after deleting danvlad@gmail.com:");
 			for(User u : users)
 				System.out.println(u);
+
+			books = bookService.findAll();
+			System.out.println("Books after a sale was made:");
+			for(Book b : books)
+				System.out.println(b);
 		};
 	}
 
