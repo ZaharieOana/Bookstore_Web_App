@@ -14,4 +14,5 @@ public interface BookService {
     //List<Book> findBooksByType(String type);
     Book saveBook(Book newBook);
     void deleteBook(Book book);
+    Book addToStock(Book book, int amount);
 }

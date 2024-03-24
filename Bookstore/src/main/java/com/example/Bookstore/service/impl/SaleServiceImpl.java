@@ -36,10 +36,14 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale makeSale(List<Book> books, User user) throws Exception {
-        for(Book b : books)
-            if(b.getStock() == 0){
+        for(Book b : books) {
+            if (b.getStock() == 0) {
                 throw new Exception("not enough books in stock");
             }
+            else if(!b.isAvailable()){
+                throw new Exception("book not available");
+            }
+        }
         for(Book b : books){
             b.setStock(b.getStock() - 1);
             bookRepository.save(b);

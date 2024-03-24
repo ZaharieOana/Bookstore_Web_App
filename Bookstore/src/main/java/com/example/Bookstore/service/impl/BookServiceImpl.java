@@ -57,4 +57,10 @@ public class BookServiceImpl implements BookService {
             bookRepository.save(book);
         }
     }
+
+    @Override
+    public Book addToStock(Book book, int amount) {
+        book.setStock(book.getStock() + amount);
+        return bookRepository.save(book);
+    }
 }
