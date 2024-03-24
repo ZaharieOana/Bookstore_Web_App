@@ -24,4 +24,15 @@ public class Sale {
     private User user;
     @ManyToMany
     private List<Book> books;
+
+    @Override
+    public String toString() {
+        return "Sale{" +
+                "id=" + id +
+                ", sum=" + sum +
+                ", date=" + date +
+                ", user=" + user +
+                ", books=" + books +
+                '}';
+    }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> findAllByAvailable(boolean availability);
-    List<Book> findAllByType(String type);
+//    List<Book> findAllByType(String type);
     Book findFirstByTitle(String title);
-
 }

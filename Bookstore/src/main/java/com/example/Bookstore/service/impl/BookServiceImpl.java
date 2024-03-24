@@ -4,7 +4,6 @@ import com.example.Bookstore.model.Book;
 import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.service.BookService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,12 @@ import java.util.List;
 @Service
 @Transactional
 public class BookServiceImpl implements BookService {
-    @Autowired
-    private BookRepository bookRepository;
+
+    private final BookRepository bookRepository;
+
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public List<Book> findAll() {
@@ -35,13 +38,14 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findFirstByTitle(title);
     }
 
-    @Override
-    public List<Book> findBooksByType(String type) {
-        return (List<Book>) bookRepository.findAllByType(type);
-    }
+//    @Override
+//    public List<Book> findBooksByType(String type) {
+//        return (List<Book>) bookRepository.findAllByType(type);
+//    }
 
     @Override
     public Book saveBook(Book newBook) {
+        newBook.setAvailable(true);
         return bookRepository.save(newBook);
     }
 

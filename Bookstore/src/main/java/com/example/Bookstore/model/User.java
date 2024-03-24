@@ -25,4 +25,17 @@ public class User {
     private UserType type;
     private int age;
     private boolean active;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", type=" + type +
+                ", age=" + age +
+                ", active=" + active +
+                '}';
+    }
 }

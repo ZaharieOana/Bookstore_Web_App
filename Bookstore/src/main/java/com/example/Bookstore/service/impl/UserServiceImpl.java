@@ -4,7 +4,6 @@ import com.example.Bookstore.model.User;
 import com.example.Bookstore.repository.UserRepository;
 import com.example.Bookstore.service.UserService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,12 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<User> findAll() {
@@ -36,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User newUser) {
+        newUser.setActive(true);
         return userRepository.save(newUser);
     }
 

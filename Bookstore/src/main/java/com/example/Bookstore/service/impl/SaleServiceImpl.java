@@ -4,7 +4,6 @@ import com.example.Bookstore.model.Sale;
 import com.example.Bookstore.repository.SaleRepository;
 import com.example.Bookstore.service.SaleService;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,12 @@ import java.util.List;
 @Service
 @Transactional
 public class SaleServiceImpl implements SaleService {
-    @Autowired
-    private SaleRepository saleRepository;
+
+    private final SaleRepository saleRepository;
+
+    public SaleServiceImpl(SaleRepository saleRepository) {
+        this.saleRepository = saleRepository;
+    }
 
     @Override
     public List<Sale> findAll() {

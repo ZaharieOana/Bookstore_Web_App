@@ -11,7 +11,7 @@ public interface BookService {
     List<Book> findAllAvailable();
     Book findBookByID(Long id);
     Book findBookByTitle(String title);
-    List<Book> findBooksByType(String type);
+    //List<Book> findBooksByType(String type);
     Book saveBook(Book newBook);
     void deleteBook(Book book);
 }

@@ -22,4 +22,17 @@ public class Book {
     private int price;
     @ManyToOne
     private BookType type;
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", available=" + available +
+                ", stock=" + stock +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
+    }
 }
