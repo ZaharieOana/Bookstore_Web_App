@@ -87,6 +87,7 @@ public class BookstoreApplication {
 				System.out.println(s);
 
 			System.out.println("Find book by title \"IT\": " + bookService.findBookByTitle("IT"));
+			System.out.println("Find book by type \"children\": " + bookService.findBooksByType(bookType2));
 			System.out.println("Find user by email \"danvlad@gmail.com\": " + userService.findUserByEmail("danvlad@gmail.com"));
 
 			userService.deleteUser(userService.findUserByEmail("danvlad@gmail.com"));

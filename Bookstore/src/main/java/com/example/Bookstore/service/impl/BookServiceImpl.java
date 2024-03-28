@@ -1,6 +1,7 @@
 package com.example.Bookstore.service.impl;
 
 import com.example.Bookstore.model.Book;
+import com.example.Bookstore.model.BookType;
 import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.service.BookService;
 import jakarta.transaction.Transactional;
@@ -38,10 +39,10 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findFirstByTitle(title);
     }
 
-//    @Override
-//    public List<Book> findBooksByType(String type) {
-//        return (List<Book>) bookRepository.findAllByType(type);
-//    }
+    @Override
+    public List<Book> findBooksByType(BookType type) {
+        return (List<Book>) bookRepository.findAllByType(type);
+    }
 
     @Override
     public Book saveBook(Book newBook) {
