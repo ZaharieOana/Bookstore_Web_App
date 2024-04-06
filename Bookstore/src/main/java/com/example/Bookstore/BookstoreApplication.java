@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -71,6 +72,7 @@ public class BookstoreApplication {
 			List<BookType> bookTypes = bookTypeService.findAll();
 
 			saleService.makeSale(books, user1);
+			saleService.makeSale(books, user1);
 			List<Sale> sales = saleService.findAll();
 
 			System.out.println("Users:");
@@ -96,8 +98,10 @@ public class BookstoreApplication {
 			for(User u : users)
 				System.out.println(u);
 
+			bookService.addToStock(bookService.findBookByID(2L), 100);
+
 			books = bookService.findAll();
-			System.out.println("Books after a sale was made:");
+			System.out.println("Books after a sale was made and 100 of \"The Little Prince\" were added:");
 			for(Book b : books)
 				System.out.println(b);
 		};
