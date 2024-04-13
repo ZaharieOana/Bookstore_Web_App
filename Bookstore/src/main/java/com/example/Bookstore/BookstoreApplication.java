@@ -1,6 +1,10 @@
 package com.example.Bookstore;
 
 import com.example.Bookstore.constants.UserType;
+import com.example.Bookstore.dto.*;
+import com.example.Bookstore.mapper.BookMapper;
+import com.example.Bookstore.mapper.BookTypeMapper;
+import com.example.Bookstore.mapper.UserMapper;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.BookType;
 import com.example.Bookstore.model.Sale;
@@ -60,49 +64,49 @@ public class BookstoreApplication {
 			user2.setEmail("danvlad@gmail.com");
 			user2.setPassword("DanVlad1234");
 
-			userService.saveUser(user1);
-			userService.saveUser(user2);
-			bookTypeService.saveBookType(bookType1);
-			bookTypeService.saveBookType(bookType2);
-			bookService.saveBook(book1);
-			bookService.saveBook(book2);
+			userService.saveUser(UserMapper.toCreationDTO(user1));
+			userService.saveUser(UserMapper.toCreationDTO(user2));
+			bookTypeService.saveBookType(BookTypeMapper.toDTO(bookType1));
+			bookTypeService.saveBookType(BookTypeMapper.toDTO(bookType2));
+			bookService.saveBook(BookMapper.toDTO(book1));
+			bookService.saveBook(BookMapper.toDTO(book2));
 
-			List<User> users = userService.findAll();
-			List<Book> books = bookService.findAll();
-			List<BookType> bookTypes = bookTypeService.findAll();
+			List<UserDTO> users = userService.findAll();
+			List<BookDTO> books = bookService.findAll();
+			List<BookTypeDTO> bookTypes = bookTypeService.findAll();
 
-			saleService.makeSale(books, user1);
-			saleService.makeSale(books, user1);
-			List<Sale> sales = saleService.findAll();
+			saleService.makeSale(new SaleCreationDTO(books, 1L));
+			saleService.makeSale(new SaleCreationDTO(books, 1L));
+			List<SaleDTO> sales = saleService.findAll();
 
 			System.out.println("Users:");
-			for(User u : users)
+			for(UserDTO u : users)
 				System.out.println(u);
 			System.out.println("Books:");
-			for(Book b : books)
+			for(BookDTO b : books)
 				System.out.println(b);
 			System.out.println("Book Types:");
-			for(BookType t : bookTypes)
+			for(BookTypeDTO t : bookTypes)
 				System.out.println(t);
 			System.out.println("Sales:");
-			for(Sale s : sales)
+			for(SaleDTO s : sales)
 				System.out.println(s);
 
 			System.out.println("Find book by title \"IT\": " + bookService.findBookByTitle("IT"));
-			System.out.println("Find book by type \"children\": " + bookService.findBooksByType(bookType2));
+			System.out.println("Find book by type \"children\": " + bookService.findBooksByType(BookTypeMapper.toDTO(bookType2)));
 			System.out.println("Find user by email \"danvlad@gmail.com\": " + userService.findUserByEmail("danvlad@gmail.com"));
 
 			userService.deleteUser(userService.findUserByEmail("danvlad@gmail.com"));
 			users = userService.findAll();
 			System.out.println("Users after deleting danvlad@gmail.com:");
-			for(User u : users)
+			for(UserDTO u : users)
 				System.out.println(u);
 
 			bookService.addToStock(bookService.findBookByID(2L), 100);
 
 			books = bookService.findAll();
 			System.out.println("Books after a sale was made and 100 of \"The Little Prince\" were added:");
-			for(Book b : books)
+			for(BookDTO b : books)
 				System.out.println(b);
 		};
 	}

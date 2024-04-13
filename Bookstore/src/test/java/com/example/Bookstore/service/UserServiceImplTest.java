@@ -23,7 +23,7 @@ public class UserServiceImplTest {
     @BeforeEach
     void setup() {
         initMocks(this);
-        userService = new UserServiceImpl(userRepository);
+        userService = new UserServiceImpl();
     }
 
     @Test

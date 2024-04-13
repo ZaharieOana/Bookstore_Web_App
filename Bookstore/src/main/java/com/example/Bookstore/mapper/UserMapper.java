@@ -1,0 +1,49 @@
+package com.example.Bookstore.mapper;
+
+import com.example.Bookstore.dto.UserCreationDTO;
+import com.example.Bookstore.dto.UserDTO;
+import com.example.Bookstore.model.User;
+
+public class UserMapper {
+
+    public static User toEntity(UserDTO dto){
+        return User.builder()
+                .email(dto.getEmail())
+                .name(dto.getName())
+                .type(dto.getType())
+                .age(dto.getAge())
+                .active(dto.isActive())
+                .build();
+    }
+
+    public static UserDTO toDTO(User user){
+        return UserDTO.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .type(user.getType())
+                .age(user.getAge())
+                .active(user.isActive())
+                .build();
+    }
+
+    public static User toCreationEntity(UserCreationDTO dto){
+        return User.builder()
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .name(dto.getName())
+                .type(dto.getType())
+                .age(dto.getAge())
+                .build();
+    }
+
+    public static UserCreationDTO toCreationDTO(User user){
+        return UserCreationDTO.builder()
+                .name(user.getName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .type(user.getType())
+                .age(user.getAge())
+                .build();
+    }
+
+}

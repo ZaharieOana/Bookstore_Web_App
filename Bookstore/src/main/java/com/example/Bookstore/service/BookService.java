@@ -1,19 +1,19 @@
 package com.example.Bookstore.service;
 
-import com.example.Bookstore.model.Book;
-import com.example.Bookstore.model.BookType;
+import com.example.Bookstore.dto.BookDTO;
+import com.example.Bookstore.dto.BookTypeDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public interface BookService {
-    List<Book> findAll();
-    List<Book> findAllAvailable();
-    Book findBookByID(Long id);
-    Book findBookByTitle(String title);
-    List<Book> findBooksByType(BookType type);
-    Book saveBook(Book newBook);
-    void deleteBook(Book book);
-    Book addToStock(Book book, int amount);
+    List<BookDTO> findAll();
+    List<BookDTO> findAllAvailable();
+    BookDTO findBookByID(Long id);
+    BookDTO findBookByTitle(String title);
+    List<BookDTO> findBooksByType(BookTypeDTO type);
+    BookDTO saveBook(BookDTO newBook);
+    void deleteBook(BookDTO book);
+    BookDTO addToStock(BookDTO book, int amount);
 }

@@ -1,18 +1,18 @@
 package com.example.Bookstore.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 public class Book {
     @Id
+    @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
@@ -20,7 +20,8 @@ public class Book {
     private boolean available;
     private int stock;
     private int price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //@Cascade(CascadeType.ALL)
     private BookType type;
 
     @Override
