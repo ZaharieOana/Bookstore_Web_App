@@ -49,11 +49,15 @@ class Login extends React.Component {
                         loginError: false
                     });
 
-                    //if (this.state.loginSuccess.role === "CLIENT") {
+                    if (this.state.loginSuccess.role === "CLIENT") {
                         localStorage.setItem("role", this.state.loginSuccess.role)
                         history.push("/home");
                         window.location.reload();
-                    //}
+                    } else if (this.state.loginSuccess.role === "ADMIN") {
+                        localStorage.setItem("role", this.state.loginSuccess.role)
+                        history.push("/admin");
+                        window.location.reload();
+                    }
                 }
             )
             .catch(error => {
