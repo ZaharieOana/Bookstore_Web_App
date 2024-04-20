@@ -51,7 +51,7 @@ class Login extends React.Component {
 
                     if (this.state.loginSuccess.role === "CLIENT") {
                         localStorage.setItem("role", this.state.loginSuccess.role)
-                        history.push("/home");
+                        history.push(`/home/${this.state.email}`);
                         window.location.reload();
                     } else if (this.state.loginSuccess.role === "ADMIN") {
                         localStorage.setItem("role", this.state.loginSuccess.role)
