@@ -14,6 +14,6 @@ public class BookDTO {
     private String author;
     private boolean available;
     private int stock;
-    private int price;
+    private double price;
     private String type;
 }

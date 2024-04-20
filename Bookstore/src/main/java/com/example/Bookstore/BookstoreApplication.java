@@ -14,14 +14,16 @@ import com.example.Bookstore.service.BookTypeService;
 import com.example.Bookstore.service.SaleService;
 import com.example.Bookstore.service.UserService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@EnableScheduling
 public class BookstoreApplication {
 
 	public static void main(String[] args) {

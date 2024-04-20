@@ -23,6 +23,7 @@ public class User {
     private UserType type;
     private int age;
     private boolean active;
+    private boolean newsletter;
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package com.example.Bookstore.controller;
 
+import com.example.Bookstore.constants.Currency;
 import com.example.Bookstore.dto.BookDTO;
 import com.example.Bookstore.dto.BookTypeDTO;
 import com.example.Bookstore.service.BookService;
@@ -18,6 +19,12 @@ public class BookController {
     @GetMapping("/getAll")
     public ResponseEntity getAllBooks(){
         return ResponseEntity.status(HttpStatus.OK).body(bookService.findAll());
+    }
+
+    @GetMapping("/currency")
+    public ResponseEntity getCurrency(){
+        Currency curr = Currency.getInstance();
+        return ResponseEntity.status(HttpStatus.OK).body(curr.getCurrency());
     }
 
     @GetMapping("/getAllAvailable")

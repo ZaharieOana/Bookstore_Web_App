@@ -13,6 +13,7 @@ public class UserMapper {
                 .type(dto.getType())
                 .age(dto.getAge())
                 .active(dto.isActive())
+                .newsletter(dto.isNewsletter())
                 .build();
     }
 
@@ -23,6 +24,7 @@ public class UserMapper {
                 .type(user.getType())
                 .age(user.getAge())
                 .active(user.isActive())
+                .newsletter(user.isNewsletter())
                 .build();
     }
 
@@ -33,6 +35,7 @@ public class UserMapper {
                 .name(dto.getName())
                 .type(dto.getType())
                 .age(dto.getAge())
+                .newsletter(false)
                 .build();
     }
 

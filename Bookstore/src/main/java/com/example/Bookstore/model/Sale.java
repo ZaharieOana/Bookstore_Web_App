@@ -16,7 +16,7 @@ public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int sum;
+    private double sum;
     private LocalDate date;
     @ManyToOne
     private User user;

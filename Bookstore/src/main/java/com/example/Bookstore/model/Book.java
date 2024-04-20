@@ -19,7 +19,7 @@ public class Book {
     private String author;
     private boolean available;
     private int stock;
-    private int price;
+    private double price;
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     //@Cascade(CascadeType.ALL)
     private BookType type;

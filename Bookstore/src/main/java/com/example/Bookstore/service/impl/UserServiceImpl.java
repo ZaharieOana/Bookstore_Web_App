@@ -1,13 +1,8 @@
 package com.example.Bookstore.service.impl;
 
-import com.example.Bookstore.dto.AuthDTO;
-import com.example.Bookstore.dto.BookDTO;
-import com.example.Bookstore.dto.UserCreationDTO;
-import com.example.Bookstore.dto.UserDTO;
+import com.example.Bookstore.dto.*;
 import com.example.Bookstore.exceptions.ApiExceptionResponse;
-import com.example.Bookstore.mapper.BookMapper;
 import com.example.Bookstore.mapper.UserMapper;
-import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.User;
 import com.example.Bookstore.repository.UserRepository;
 import com.example.Bookstore.service.UserService;
@@ -56,7 +51,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO saveUser(UserCreationDTO newUser) {
+    public UserDTO saveUser(UserCreationDTO newUser) throws ApiExceptionResponse {
+        User u = userRepository.findFirstByEmail(newUser.getEmail());
+        if(u != null){
+            throw ApiExceptionResponse.builder()
+                    .errors(Collections.singletonList("Already exists user with email "))
+                    .message("User exists")
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .build();
+        }
         User user = UserMapper.toCreationEntity(newUser);
         user.setActive(true);
         return UserMapper.toDTO(userRepository.save(user));
@@ -72,9 +75,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(AuthDTO dto) throws ApiExceptionResponse {
+    public SuccessfulLogInDTO login(AuthDTO dto) throws ApiExceptionResponse {
         User user = userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword());
-        if(user == null){
+        if(user == null || !user.isActive()){
             ArrayList<String> errors = new ArrayList<>();
             errors.add("Email or password invalid");
 
@@ -84,6 +87,19 @@ public class UserServiceImpl implements UserService {
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
-        return user;
+        return SuccessfulLogInDTO.builder().role(user.getType()).id(user.getId()).build();
+    }
+
+    @Override
+    public boolean isUserSubscribed(String email) {
+        User user = userRepository.findFirstByEmail(email);
+        return user.isNewsletter();
+    }
+
+    @Override
+    public void setSubscribe(String email, boolean ok) {
+        User user = userRepository.findFirstByEmail(email);
+        user.setNewsletter(ok);
+        userRepository.save(user);
     }
 }

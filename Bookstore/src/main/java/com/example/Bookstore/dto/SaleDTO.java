@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @ToString
 public class SaleDTO {
-    private int sum;
+    private double sum;
     private LocalDate date;
     private User user;
     private List<Book> books;
