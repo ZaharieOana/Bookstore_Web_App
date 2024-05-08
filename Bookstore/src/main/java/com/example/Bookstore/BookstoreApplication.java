@@ -13,22 +13,32 @@ import com.example.Bookstore.service.BookService;
 import com.example.Bookstore.service.BookTypeService;
 import com.example.Bookstore.service.SaleService;
 import com.example.Bookstore.service.UserService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling
+//@EnableSwagger2
+@OpenAPIDefinition(info = @Info(title = "Bookstore", version = "1.0", description = "ProiectPS"))
 public class BookstoreApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
+
 
 //	@Bean
 //	CommandLineRunner init(UserService userService, BookService bookService, BookTypeService bookTypeService, SaleService saleService){
