@@ -1,58 +1,83 @@
 package com.example.Bookstore.service.impl;
 
+import com.example.Bookstore.dto.BookDTO;
+import com.example.Bookstore.dto.SaleCreationDTO;
+import com.example.Bookstore.dto.SaleDTO;
+import com.example.Bookstore.exceptions.ApiExceptionResponse;
+import com.example.Bookstore.mapper.BookMapper;
+import com.example.Bookstore.mapper.SaleMapper;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.Sale;
-import com.example.Bookstore.model.User;
 import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.repository.SaleRepository;
+import com.example.Bookstore.repository.UserRepository;
 import com.example.Bookstore.service.SaleService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class SaleServiceImpl implements SaleService {
 
-    private final SaleRepository saleRepository;
-    private final BookRepository bookRepository;
+    @Autowired
+    private SaleRepository saleRepository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public SaleServiceImpl(SaleRepository saleRepository, BookRepository bookRepository) {
-        this.saleRepository = saleRepository;
-        this.bookRepository = bookRepository;
+
+    @Override
+    public List<SaleDTO> findAll() {
+        List<Sale> saleList = (List<Sale>) saleRepository.findAll();
+        List<SaleDTO> sales = new ArrayList<>();
+        for(Sale s : saleList){
+            sales.add(SaleMapper.toDTO(s));
+        }
+        return sales;
     }
 
     @Override
-    public List<Sale> findAll() {
-        return (List<Sale>) saleRepository.findAll();
+    public SaleDTO saveSale(SaleDTO newSale) {
+        return SaleMapper.toDTO(saleRepository.save(SaleMapper.toEntity(newSale)));
     }
 
     @Override
-    public Sale saveSale(Sale newSale) {
-        return saleRepository.save(newSale);
-    }
-
-    @Override
-    public Sale makeSale(List<Book> books, User user) throws Exception {
+    public SaleDTO makeSale(SaleCreationDTO dto) throws Exception {
+        ArrayList<String> errors = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
+        for(BookDTO b : dto.getBooks())
+            books.add(bookRepository.findFirstByTitle(b.getTitle()));
         for(Book b : books) {
-            if (b.getStock() == 0) {
-                throw new Exception("not enough books in stock");
+            if(!b.isAvailable()){
+            errors.add(b.getTitle() + "is not available");
+            } else if (b.getStock() == 0) {
+                errors.add(b.getTitle() + "is out of stock");
             }
-            else if(!b.isAvailable()){
-                throw new Exception("book not available");
-            }
+
         }
         for(Book b : books){
             b.setStock(b.getStock() - 1);
             bookRepository.save(b);
         }
+        if(errors.size() > 0){
+            throw ApiExceptionResponse.builder()
+                    .errors(errors)
+                    .message("Entity not available")
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .build();
+        }
         Sale sale = new Sale();
         sale.setBooks(books);
-        sale.setUser(user);
+        sale.setUser(userRepository.findById(dto.getUserId()).orElseThrow());
         sale.setSum();
         sale.setDate(LocalDate.now());
-        return saleRepository.save(sale);
+        return SaleMapper.toDTO(saleRepository.save(sale));
     }
 }

@@ -1,67 +1,95 @@
 package com.example.Bookstore.service.impl;
 
+import com.example.Bookstore.dto.BookDTO;
+import com.example.Bookstore.dto.BookTypeDTO;
+import com.example.Bookstore.mapper.BookMapper;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.BookType;
 import com.example.Bookstore.repository.BookRepository;
+import com.example.Bookstore.repository.BookTypeRepository;
 import com.example.Bookstore.service.BookService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private BookTypeRepository bookTypeRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+
+    @Override
+    public List<BookDTO> findAll() {
+        List<Book> bookList = (List<Book>) bookRepository.findAll();
+        List<BookDTO> books = new ArrayList<>();
+        for(Book b : bookList){
+            books.add(BookMapper.toDTO(b));
+        }
+        return books;
     }
 
     @Override
-    public List<Book> findAll() {
-        return (List<Book>) bookRepository.findAll();
+    public List<BookDTO> findAllAvailable() {
+        List<Book> bookList = bookRepository.findAllByAvailable(true);
+        List<BookDTO> books = new ArrayList<>();
+        for(Book b : bookList){
+            books.add(BookMapper.toDTO(b));
+        }
+        return books;
     }
 
     @Override
-    public List<Book> findAllAvailable() {
-        return (List<Book>) bookRepository.findAllByAvailable(true);
+    public BookDTO findBookByID(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow();
+        return BookMapper.toDTO(book);
     }
 
     @Override
-    public Book findBookByID(Long id) {
-        return bookRepository.findById(id).orElseThrow();
+    public BookDTO findBookByTitle(String title) {
+        Book book = bookRepository.findFirstByTitle(title);
+        return BookMapper.toDTO(book);
     }
 
     @Override
-    public Book findBookByTitle(String title) {
-        return bookRepository.findFirstByTitle(title);
+    public List<BookDTO> findBooksByType(BookTypeDTO type) {
+        BookType t = bookTypeRepository.findFirstByName(type.getName());
+        List<Book> bookList = bookRepository.findAllByType(t);
+        List<BookDTO> books = new ArrayList<>();
+        for(Book b : bookList){
+            books.add(BookMapper.toDTO(b));
+        }
+        return books;
     }
 
     @Override
-    public List<Book> findBooksByType(BookType type) {
-        return (List<Book>) bookRepository.findAllByType(type);
+    public BookDTO saveBook(BookDTO newBook) {
+        Book book = BookMapper.toEntity(newBook);
+        BookType type = bookTypeRepository.findFirstByName(newBook.getType());
+        book.setType(type);
+        book.setAvailable(true);
+        return BookMapper.toDTO(bookRepository.save(book));
     }
 
     @Override
-    public Book saveBook(Book newBook) {
-        newBook.setAvailable(true);
-        return bookRepository.save(newBook);
-    }
-
-    @Override
-    public void deleteBook(Book book) {
-        boolean exists = bookRepository.findById(book.getId()).isPresent();
-        if(exists){
-            book.setAvailable(false);
-            bookRepository.save(book);
+    public void deleteBook(BookDTO book) {
+        Book b = bookRepository.findFirstByTitle(book.getTitle());
+        if(b != null){
+            b.setAvailable(false);
+            bookRepository.save(b);
         }
     }
 
     @Override
-    public Book addToStock(Book book, int amount) {
-        book.setStock(book.getStock() + amount);
-        return bookRepository.save(book);
+    public BookDTO addToStock(BookDTO book, int amount) {
+        Book b = bookRepository.findFirstByTitle(book.getTitle());
+        b.setStock(b.getStock() + amount);
+        return BookMapper.toDTO(bookRepository.save(b));
     }
 }
