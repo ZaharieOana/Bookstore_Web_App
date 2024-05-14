@@ -11,4 +11,5 @@ public interface SaleService {
     List<SaleDTO> findAll();
     SaleDTO saveSale(SaleDTO newSale);
     SaleDTO makeSale(SaleCreationDTO dto) throws Exception;
+    String exportSales();
 }

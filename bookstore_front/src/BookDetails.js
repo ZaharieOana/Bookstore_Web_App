@@ -12,6 +12,10 @@ class BookDetails extends React.Component {
         //todo
     }
 
+    addToStock = () => {
+        //todo
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -38,6 +42,7 @@ class BookDetails extends React.Component {
                 </ListItem>
                 {this.props.role === "ADMIN" ? <div></div> : <ListItem key={this.props.book.title}>
                     <Button onClick={() => this.buyBook()}>Buy book</Button>
+                    <Button onClick={() => this.addToStock()}>Add to stock</Button>
                 </ListItem>}
 
             </React.Fragment>

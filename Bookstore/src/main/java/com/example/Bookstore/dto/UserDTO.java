@@ -13,6 +13,7 @@ import lombok.ToString;
 public class UserDTO {
     private String name;
     private String email;
+    private String phone;
     private UserType type;
     private int age;
     private boolean active;

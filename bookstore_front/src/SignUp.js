@@ -14,6 +14,7 @@ class SignUp extends React.Component {
         this.state = {
             name: "",
             email: "",
+            phone: "",
             password: "",
             age: 0,
             signupSuccess: {
@@ -36,6 +37,7 @@ class SignUp extends React.Component {
         let credentials = {
             name: this.state.name,
             email: this.state.email,
+            phone: this.state.phone,
             password: this.state.password,
             age: this.state.age,
         }
@@ -101,6 +103,18 @@ class SignUp extends React.Component {
                                 id="email"
                                 label="Email"
                                 name="email"
+                                autoComplete="string"
+                                onChange={this.handleInput}
+                                autoFocus
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="phone"
+                                label="Phone"
+                                name="phone"
                                 autoComplete="string"
                                 onChange={this.handleInput}
                                 autoFocus

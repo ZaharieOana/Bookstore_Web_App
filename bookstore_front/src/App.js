@@ -4,6 +4,7 @@ import Login from "./Login";
 import HomeClient from "./HomeClient";
 import HomeAdmin from "./HomeAdmin";
 import SignUp from "./SignUp";
+import ChangePass from "./ChangePass";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/home/:email" element={<HomeClient/>}/>
           <Route exact path="/admin" element={<HomeAdmin/>}/>
           <Route exact path="/sign-up" element={<SignUp/>}/>
+          <Route exact path="/changePassword" element={<ChangePass/>}/>
         </Switch>
         {defaultRoute}
       </Router>

@@ -102,4 +102,12 @@ public class UserServiceImpl implements UserService {
         user.setNewsletter(ok);
         userRepository.save(user);
     }
+
+    @Override
+    public UserDTO changePassword(String email, String password) {
+        User user = userRepository.findFirstByEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        return UserMapper.toDTO(user);
+    }
 }

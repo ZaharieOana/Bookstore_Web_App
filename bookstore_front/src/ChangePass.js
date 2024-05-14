@@ -1,23 +1,17 @@
 import React from "react";
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField";
-import Container from "@mui/material/Container";
 import axiosInstance from "./axios";
 import Grid from "@mui/material/Grid";
 import history from './history';
-import {useNavigate} from "react-router-dom";
 
 
-class Login extends React.Component {
+class ChangePass extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: "",
             password: "",
-            loginSuccess: {
-                id: 0,
-                role: "",
-            }
         };
     }
 
@@ -33,48 +27,29 @@ class Login extends React.Component {
         event.preventDefault();
         let credentials = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
         }
 
-        axiosInstance.post("/login", credentials)
-            .then(res => {
-                const val = res.data;
-                this.setState({ loginSuccess: val }, () => {
+        axiosInstance.put("/user/changePass", credentials)
+            .then(
+                res => {
+                    const val = res.data;
                     console.log("Success");
-                    console.log(this.state.loginSuccess);
                     this.setState({
-                        loginError: false
+                        signupError: false
                     });
 
-                    if (this.state.loginSuccess.role === "CLIENT") {
-                        localStorage.setItem("role", this.state.loginSuccess.role)
-                        history.push(`/home/${this.state.email}`);
-                        window.location.reload();
-                    } else if (this.state.loginSuccess.role === "ADMIN") {
-                        localStorage.setItem("role", this.state.loginSuccess.role)
-                        history.push("/admin");
-                        window.location.reload();
-                    }
-                });
-            })
+                    history.push("/log-in");
+                    window.location.reload();
+                }
+            )
             .catch(error => {
                 console.log(error)
                 this.setState({
-                    loginError: true
+                    signupError: true
                 });
             })
     }
-
-    onCreateFunction = () => {
-        history.push("/sign-up");
-        window.location.reload();
-    }
-
-    onChangePassword = () => {
-        history.push("/changePassword");
-        window.location.reload();
-    }
-
 
     render() {
         return (
@@ -88,11 +63,7 @@ class Login extends React.Component {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                }}>
-                <div className={'titleContainer'}>
-                    <div><h1 style={{fontSize: "3rem", padding: "10px"}} align="right">Welcome to Book Dragons'
-                        Corner</h1></div>
-                </div>
+            }}>
                 <div align="right">
                     <Grid maxWidth="sm" style={{padding: "20px"}}>
                         <form onSubmit={this.onSubmitFunction}>
@@ -127,32 +98,11 @@ class Login extends React.Component {
                                 color="primary"
                                 style={{backgroundColor: "darkred"}}
                             >
-                                Sign In
+                                Change Password
                             </Button>
-                            <p></p>
+                            <p> </p>
                         </form>
-                        <Button
-                            onClick={this.onCreateFunction}
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            style={{backgroundColor: "darkred"}}
-                        >
-                            Create Account
-                        </Button>
-                        <p></p>
-                        <Button
-                            onClick={this.onChangePassword}
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            style={{backgroundColor: "darkred"}}
-                        >
-                            Forgot Password?
-                        </Button>
-                        {this.state.loginError ? <div style={{color: "red"}}>Invalid Credentials</div> : <div></div>}
+                        {this.state.signupError ?  <div style={{color: "red"}}>Invalid data</div> : <div></div>}
                     </Grid>
                 </div>
             </div>)
@@ -160,4 +110,4 @@ class Login extends React.Component {
 
 }
 
-export default Login;
+export default ChangePass;

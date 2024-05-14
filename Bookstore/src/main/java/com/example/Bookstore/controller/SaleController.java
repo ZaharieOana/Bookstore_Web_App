@@ -33,4 +33,10 @@ public class SaleController {
     public ResponseEntity makeSale(@RequestBody SaleCreationDTO sale) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(saleService.makeSale(sale));
     }
+
+    @GetMapping("/download")
+    public ResponseEntity downloadSales(){
+        return ResponseEntity.ok(saleService.exportSales());
+    }
+
 }

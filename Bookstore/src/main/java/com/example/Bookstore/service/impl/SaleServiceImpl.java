@@ -3,8 +3,10 @@ package com.example.Bookstore.service.impl;
 import com.example.Bookstore.dto.BookDTO;
 import com.example.Bookstore.dto.SaleCreationDTO;
 import com.example.Bookstore.dto.SaleDTO;
+import com.example.Bookstore.dto.SaleExportDTO;
 import com.example.Bookstore.exceptions.ApiExceptionResponse;
-import com.example.Bookstore.mapper.BookMapper;
+import com.example.Bookstore.functionalities.exporter.FileExporter;
+import com.example.Bookstore.functionalities.exporter.XMLFileExporter;
 import com.example.Bookstore.mapper.SaleMapper;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.Sale;
@@ -79,5 +81,15 @@ public class SaleServiceImpl implements SaleService {
         sale.setSum();
         sale.setDate(LocalDate.now());
         return SaleMapper.toDTO(saleRepository.save(sale));
+    }
+
+    @Override
+    public String exportSales() {
+        FileExporter fileExporter = new XMLFileExporter();
+        List<Sale> sales = (List<Sale>) saleRepository.findAll();
+        List<SaleExportDTO> dtos = new ArrayList<>();
+        for(Sale s :sales)
+            dtos.add(SaleMapper.toExportDTO(s));
+        return fileExporter.exportSales(dtos);
     }
 }

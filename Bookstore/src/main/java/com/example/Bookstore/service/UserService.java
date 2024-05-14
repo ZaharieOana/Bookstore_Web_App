@@ -19,4 +19,5 @@ public interface UserService {
     SuccessfulLogInDTO login(AuthDTO dto) throws ApiExceptionResponse;
     boolean isUserSubscribed(String email);
     void setSubscribe(String email, boolean ok);
+    UserDTO changePassword(String email, String password);
 }

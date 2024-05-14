@@ -1,30 +1,36 @@
 package com.example.Bookstore.controller;
 
 import com.example.Bookstore.constants.UserType;
+import com.example.Bookstore.dto.AuthDTO;
+import com.example.Bookstore.dto.SubscriptionDTO;
 import com.example.Bookstore.dto.UserCreationDTO;
 import com.example.Bookstore.dto.UserDTO;
 import com.example.Bookstore.exceptions.ApiExceptionResponse;
 import com.example.Bookstore.functionalities.EmailService;
 import com.example.Bookstore.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
+@Validated
 public class UserController {
     @Autowired
     private UserService userService;
 
     @Autowired
     private EmailService emailService;
+
+    public static final String ACCOUNT_SID = "AC0fe25a2b504b9e15e3f7b3b04feb385b";
+    public static final String AUTH_TOKEN = "e20d9a3dcdd3295202e548c694812eb2";
 
     @Operation(summary = "Get a list of all users")
     @GetMapping("/getAll")
@@ -47,12 +53,20 @@ public class UserController {
     @Operation(summary = "Get if a user is subscribed or not")
     @GetMapping("/getSubscription")
     public ResponseEntity getSubscription(@RequestParam String email) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.isUserSubscribed(email));
+        try {
+            boolean isSubscribed = userService.isUserSubscribed(email);
+            return ResponseEntity.ok(isSubscribed);
+        } catch (Exception e) {
+            // Log the error
+            e.printStackTrace();
+            // Return an appropriate error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching subscription status");
+        }
     }
 
     @Operation(summary = "Save a user when the account is created")
     @PostMapping("/save")
-    public ResponseEntity saveNewUser(@RequestBody UserCreationDTO user) throws ApiExceptionResponse {
+    public ResponseEntity saveNewUser(@Valid @RequestBody UserCreationDTO user) throws ApiExceptionResponse {
         user.setType(UserType.CLIENT);
         String body = "User "+ user.getEmail() + " has created a new account at " + LocalDateTime.now();
         emailService.sendEmail("zaharieoanadenisa@gmail.com", "Sing Up Confirmation", body);
@@ -61,9 +75,23 @@ public class UserController {
 
     @Operation(summary = "Update the subscription of a user")
     @PutMapping("/subscribe")
-    public ResponseEntity updateSubscription(@RequestParam String email, @RequestParam boolean ok) {
-        userService.setSubscribe(email, ok);
+    public ResponseEntity updateSubscription(@RequestBody SubscriptionDTO dto) {
+        userService.setSubscribe(dto.getEmail(), dto.isOk());
         return ResponseEntity.status(HttpStatus.OK).body("Subscription updated");
+    }
+
+    @PutMapping("/changePass")
+    public ResponseEntity changePassword(@RequestBody AuthDTO user){
+        UserDTO dto = userService.changePassword(user.getEmail(), user.getPassword());
+
+//        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+//        Message.creator(
+//                        new PhoneNumber("+40745882928"),
+//                        new PhoneNumber("+18507265957"),
+//                "Your password was successfully changed to \" + user.getPassword()")
+//                        .create();
+
+        return ResponseEntity.status(HttpStatus.OK).body("Password changed");
     }
 
     @Operation(summary = "Delete a user (set it as inactive)")

@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.validation.annotation.Validated;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -31,8 +32,8 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling
-//@EnableSwagger2
 @OpenAPIDefinition(info = @Info(title = "Bookstore", version = "1.0", description = "ProiectPS"))
+@Validated
 public class BookstoreApplication {
 
 	public static void main(String[] args) {
@@ -68,6 +69,7 @@ public class BookstoreApplication {
 //			user1.setAge(20);
 //			user1.setEmail("anapop@gmail.com");
 //			user1.setPassword("AnaPop");
+//			user1.setPhone("1111");
 //
 //			User user2 = new User();
 //			user2.setName("Dan Vlad");
@@ -75,6 +77,7 @@ public class BookstoreApplication {
 //			user2.setAge(20);
 //			user2.setEmail("danvlad@gmail.com");
 //			user2.setPassword("DanVlad1234");
+//			user2.setPhone("2222");
 //
 //			userService.saveUser(UserMapper.toCreationDTO(user1));
 //			userService.saveUser(UserMapper.toCreationDTO(user2));

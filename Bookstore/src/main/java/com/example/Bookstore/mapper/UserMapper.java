@@ -9,6 +9,7 @@ public class UserMapper {
     public static User toEntity(UserDTO dto){
         return User.builder()
                 .email(dto.getEmail())
+                .phone(dto.getPhone())
                 .name(dto.getName())
                 .type(dto.getType())
                 .age(dto.getAge())
@@ -20,6 +21,7 @@ public class UserMapper {
     public static UserDTO toDTO(User user){
         return UserDTO.builder()
                 .email(user.getEmail())
+                .phone(user.getPhone())
                 .name(user.getName())
                 .type(user.getType())
                 .age(user.getAge())
@@ -31,6 +33,7 @@ public class UserMapper {
     public static User toCreationEntity(UserCreationDTO dto){
         return User.builder()
                 .email(dto.getEmail())
+                .phone(dto.getPhone())
                 .password(dto.getPassword())
                 .name(dto.getName())
                 .type(dto.getType())
@@ -43,6 +46,7 @@ public class UserMapper {
         return UserCreationDTO.builder()
                 .name(user.getName())
                 .email(user.getEmail())
+                .phone(user.getPhone())
                 .password(user.getPassword())
                 .type(user.getType())
                 .age(user.getAge())
