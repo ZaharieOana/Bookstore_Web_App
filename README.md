@@ -10,3 +10,8 @@ Functionalitati A2: <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Clientii primesc un email cand isi creeaza cont <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Schimbare valuta <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Cronjob pentru abonare la newsletter <br>
+
+Functionalitati A3: <br>
+    &nbsp; &nbsp; &nbsp; &nbsp; Abonare la newsletter pentru clienti <br>
+    &nbsp; &nbsp; &nbsp; &nbsp; Schimbare parola <br>
+    &nbsp; &nbsp; &nbsp; &nbsp; Descarcare raport de vanzari pentru admini <br>
