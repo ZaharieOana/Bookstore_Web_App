@@ -24,4 +24,6 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(auth));
     }
 
+
+
 }

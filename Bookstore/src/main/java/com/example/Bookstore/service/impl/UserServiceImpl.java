@@ -87,7 +87,16 @@ public class UserServiceImpl implements UserService {
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
+        user.setConnected(true);
+        userRepository.save(user);
         return SuccessfulLogInDTO.builder().role(user.getType()).id(user.getId()).build();
+    }
+
+    @Override
+    public void logout(String email) {
+        User user = userRepository.findFirstByEmail(email);
+        user.setConnected(false);
+        userRepository.save(user);
     }
 
     @Override

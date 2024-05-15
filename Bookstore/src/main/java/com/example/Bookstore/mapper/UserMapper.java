@@ -15,6 +15,7 @@ public class UserMapper {
                 .age(dto.getAge())
                 .active(dto.isActive())
                 .newsletter(dto.isNewsletter())
+                .connected(dto.isConnected())
                 .build();
     }
 
@@ -27,6 +28,7 @@ public class UserMapper {
                 .age(user.getAge())
                 .active(user.isActive())
                 .newsletter(user.isNewsletter())
+                .connected(user.isConnected())
                 .build();
     }
 

@@ -17,5 +17,6 @@ public class UserDTO {
     private UserType type;
     private int age;
     private boolean active;
+    private boolean connected;
     private boolean newsletter;
 }

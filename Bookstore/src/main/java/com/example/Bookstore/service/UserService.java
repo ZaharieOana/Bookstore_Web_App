@@ -17,6 +17,7 @@ public interface UserService {
     UserDTO saveUser(UserCreationDTO newUser) throws ApiExceptionResponse;
     void deleteUser(UserDTO user);
     SuccessfulLogInDTO login(AuthDTO dto) throws ApiExceptionResponse;
+    void logout(String email);
     boolean isUserSubscribed(String email);
     void setSubscribe(String email, boolean ok);
     UserDTO changePassword(String email, String password);

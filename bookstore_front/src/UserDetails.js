@@ -32,6 +32,13 @@ class UserDetails extends React.Component {
                     <ListItemText
                         primary={this.props.user.active ? "active" : "inactive"}/>
                 </ListItem>
+                <ListItem key={this.props.user.email}>
+                    <ListItemIcon>
+                        <Avatar>{"C"}</Avatar>
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={this.props.user.connected ? "connected" : "not connected"}/>
+                </ListItem>
             </React.Fragment>
         )
     }

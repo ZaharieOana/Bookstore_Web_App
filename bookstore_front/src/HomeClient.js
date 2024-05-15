@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axiosInstance from "./axios";
 import { Avatar, Checkbox, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import BookItem from "./BookItem";
+import Button from "@mui/material/Button";
+import history from "./history";
 
 const HomeClient = (props) => {
     const [email, setEmail] = useState("");
@@ -67,6 +69,22 @@ const HomeClient = (props) => {
         setSelectedCurrencyValue(currencies[event.target.value]);
      }
 
+
+    const logout = () => {
+        axiosInstance
+            .put("/user/logout", null, {
+                params: {
+                    email: params.email
+                } })
+            .then(res => {
+                history.push("/log-in");
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     const handleChange = () => {
         const isChecked = !checked;
         setChecked(isChecked);
@@ -101,6 +119,17 @@ const HomeClient = (props) => {
                 />
                 Subscribed to Newsletter
             </label>
+            <div>
+                <Button
+                    onClick={logout}
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    style={{backgroundColor: "darkred"}}
+                >
+                    Log Out
+                </Button>
+            </div>
             {showBooksError ? <div>No books available</div> : <div></div>}
             {message && <div>{message}</div>}
             <select value={selectedCurrency} onChange={handleCurrencyChange}>

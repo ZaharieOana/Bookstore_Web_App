@@ -101,4 +101,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("User deleted");
     }
 
+    @PutMapping("/logout")
+    public ResponseEntity logout(@RequestParam String email) {
+        userService.logout(email);
+        return ResponseEntity.status(HttpStatus.OK).body("Log out successfully");
+    }
+
 }
