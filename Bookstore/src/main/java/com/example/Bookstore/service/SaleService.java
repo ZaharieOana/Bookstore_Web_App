@@ -10,6 +10,7 @@ import java.util.List;
 public interface SaleService {
     List<SaleDTO> findAll();
     SaleDTO saveSale(SaleDTO newSale);
-    SaleDTO makeSale(SaleCreationDTO dto) throws Exception;
+    //SaleDTO makeSale(SaleCreationDTO dto) throws Exception;
+    SaleDTO makeSale(String email) throws Exception;
     String exportSales();
 }

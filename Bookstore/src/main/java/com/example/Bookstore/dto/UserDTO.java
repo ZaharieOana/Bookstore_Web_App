@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -19,4 +21,5 @@ public class UserDTO {
     private boolean active;
     private boolean connected;
     private boolean newsletter;
+    private List<BookDTO> cart;
 }

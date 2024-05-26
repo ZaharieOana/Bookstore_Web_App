@@ -30,8 +30,8 @@ public class SaleController {
 
     @Operation(summary = "Make a sale")
     @PostMapping("/make")
-    public ResponseEntity makeSale(@RequestBody SaleCreationDTO sale) throws Exception {
-        return ResponseEntity.status(HttpStatus.OK).body(saleService.makeSale(sale));
+    public ResponseEntity makeSale(@RequestBody String email) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(saleService.makeSale(email));
     }
 
     @GetMapping("/download")

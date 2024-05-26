@@ -10,6 +10,7 @@ import com.example.Bookstore.functionalities.exporter.XMLFileExporter;
 import com.example.Bookstore.mapper.SaleMapper;
 import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.Sale;
+import com.example.Bookstore.model.User;
 import com.example.Bookstore.repository.BookRepository;
 import com.example.Bookstore.repository.SaleRepository;
 import com.example.Bookstore.repository.UserRepository;
@@ -51,11 +52,10 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public SaleDTO makeSale(SaleCreationDTO dto) throws Exception {
+    public SaleDTO makeSale(String email) throws Exception {
         ArrayList<String> errors = new ArrayList<>();
-        List<Book> books = new ArrayList<>();
-        for(BookDTO b : dto.getBooks())
-            books.add(bookRepository.findFirstByTitle(b.getTitle()));
+        User user = userRepository.findFirstByEmail(email);
+        List<Book> books = user.getCart();
         for(Book b : books) {
             if(!b.isAvailable()){
             errors.add(b.getTitle() + "is not available");
@@ -64,10 +64,6 @@ public class SaleServiceImpl implements SaleService {
             }
 
         }
-        for(Book b : books){
-            b.setStock(b.getStock() - 1);
-            bookRepository.save(b);
-        }
         if(errors.size() > 0){
             throw ApiExceptionResponse.builder()
                     .errors(errors)
@@ -75,13 +71,52 @@ public class SaleServiceImpl implements SaleService {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .build();
         }
+        for(Book b : books){
+            b.setStock(b.getStock() - 1);
+            bookRepository.save(b);
+        }
         Sale sale = new Sale();
         sale.setBooks(books);
-        sale.setUser(userRepository.findById(dto.getUserId()).orElseThrow());
+        sale.setUser(user);
         sale.setSum();
         sale.setDate(LocalDate.now());
+        user.setCart(new ArrayList<>());
+        userRepository.save(user);
         return SaleMapper.toDTO(saleRepository.save(sale));
     }
+
+//    @Override
+//    public SaleDTO makeSale(SaleCreationDTO dto) throws Exception {
+//        ArrayList<String> errors = new ArrayList<>();
+//        List<Book> books = new ArrayList<>();
+//        for(BookDTO b : dto.getBooks())
+//            books.add(bookRepository.findFirstByTitle(b.getTitle()));
+//        for(Book b : books) {
+//            if(!b.isAvailable()){
+//            errors.add(b.getTitle() + "is not available");
+//            } else if (b.getStock() == 0) {
+//                errors.add(b.getTitle() + "is out of stock");
+//            }
+//
+//        }
+//        for(Book b : books){
+//            b.setStock(b.getStock() - 1);
+//            bookRepository.save(b);
+//        }
+//        if(errors.size() > 0){
+//            throw ApiExceptionResponse.builder()
+//                    .errors(errors)
+//                    .message("Entity not available")
+//                    .status(HttpStatus.EXPECTATION_FAILED)
+//                    .build();
+//        }
+//        Sale sale = new Sale();
+//        sale.setBooks(books);
+//        sale.setUser(userRepository.findById(dto.getUserId()).orElseThrow());
+//        sale.setSum();
+//        sale.setDate(LocalDate.now());
+//        return SaleMapper.toDTO(saleRepository.save(sale));
+//    }
 
     @Override
     public String exportSales() {

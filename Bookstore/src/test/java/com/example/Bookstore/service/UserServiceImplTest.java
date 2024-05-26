@@ -1,9 +1,6 @@
 package com.example.Bookstore.service;
 
 import com.example.Bookstore.constants.UserType;
-import com.example.Bookstore.dto.UserDTO;
-import com.example.Bookstore.exceptions.ApiExceptionResponse;
-import com.example.Bookstore.mapper.UserMapper;
 import com.example.Bookstore.model.User;
 import com.example.Bookstore.repository.UserRepository;
 import com.example.Bookstore.service.impl.UserServiceImpl;
@@ -30,36 +27,36 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void createUser() throws ApiExceptionResponse {
-        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true, false);
+    public void createUser() {
+        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true);
         when(userRepository.save(user)).thenReturn(user);
 
-        UserDTO result = userService.saveUser(UserMapper.toCreationDTO(user));
+        User result = userService.saveUser(user);
 
         assertNotNull(result);
-        assertEquals("test@t.t", result.getEmail());
+        assertEquals(1L, result.getId());
     }
 
     @Test
     public void givenExistingUser_whenDeleteUser() {
-        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true, false);
+        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        userService.deleteUser(UserMapper.toDTO(user));
-        UserDTO result = userService.findUserByID(1L);
+        userService.deleteUser(user);
+        User result = userService.findUserByID(1L);
 
         assertNotNull(result);
-        assertEquals("test@t.t", result.getEmail());
+        assertEquals(1L, result.getId());
         assertFalse(result.isActive());
     }
 
     @Test
     public void givenExistingUser_whenFindUserByEmail() throws Exception {
         String email = "test@t.t";
-        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true, false);
+        User user = new User(1L, "Test User", "pass", "test@t.t", UserType.CLIENT, 21, true);
         when(userRepository.findFirstByEmail(email)).thenReturn(user);
 
-        UserDTO result = userService.findUserByEmail(email);
+        User result = userService.findUserByEmail(email);
 
         assertNotNull(result);
         assertEquals(email, result.getEmail());

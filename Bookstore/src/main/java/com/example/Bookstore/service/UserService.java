@@ -1,9 +1,6 @@
 package com.example.Bookstore.service;
 
-import com.example.Bookstore.dto.AuthDTO;
-import com.example.Bookstore.dto.SuccessfulLogInDTO;
-import com.example.Bookstore.dto.UserCreationDTO;
-import com.example.Bookstore.dto.UserDTO;
+import com.example.Bookstore.dto.*;
 import com.example.Bookstore.exceptions.ApiExceptionResponse;
 import org.springframework.stereotype.Component;
 
@@ -21,4 +18,8 @@ public interface UserService {
     boolean isUserSubscribed(String email);
     void setSubscribe(String email, boolean ok);
     UserDTO changePassword(String email, String password);
+    void addBookToCart(String email, String title);
+    void removeBookFromCart(String email, String title);
+    List<BookDTO> getCart(String email);
+    double getTotal(String email) throws ApiExceptionResponse;
 }

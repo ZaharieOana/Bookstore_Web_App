@@ -1,12 +1,21 @@
 package com.example.Bookstore.mapper;
 
+import com.example.Bookstore.dto.BookDTO;
 import com.example.Bookstore.dto.UserCreationDTO;
 import com.example.Bookstore.dto.UserDTO;
+import com.example.Bookstore.model.Book;
 import com.example.Bookstore.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper {
 
     public static User toEntity(UserDTO dto){
+        List<BookDTO> cart = dto.getCart();
+        List<Book> newCart = new ArrayList<>();
+        for(BookDTO b : cart)
+            newCart.add(BookMapper.toEntity(b));
         return User.builder()
                 .email(dto.getEmail())
                 .phone(dto.getPhone())
@@ -16,10 +25,15 @@ public class UserMapper {
                 .active(dto.isActive())
                 .newsletter(dto.isNewsletter())
                 .connected(dto.isConnected())
+                .cart(newCart)
                 .build();
     }
 
     public static UserDTO toDTO(User user){
+        List<Book> cart = user.getCart();
+        List<BookDTO> newCart = new ArrayList<>();
+        for(Book b : cart)
+            newCart.add(BookMapper.toDTO(b));
         return UserDTO.builder()
                 .email(user.getEmail())
                 .phone(user.getPhone())
@@ -29,6 +43,7 @@ public class UserMapper {
                 .active(user.isActive())
                 .newsletter(user.isNewsletter())
                 .connected(user.isConnected())
+                .cart(newCart)
                 .build();
     }
 

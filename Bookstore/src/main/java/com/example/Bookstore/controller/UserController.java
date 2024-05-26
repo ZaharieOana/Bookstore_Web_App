@@ -94,6 +94,28 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("Password changed");
     }
 
+    @PutMapping("/addBook")
+    public ResponseEntity addBookToCart(@RequestParam String email, @RequestParam String title) {
+        userService.addBookToCart(email, title);
+        return ResponseEntity.status(HttpStatus.OK).body("Book added to cart");
+    }
+
+    @PutMapping("removeBook")
+    public ResponseEntity removeBookFromCart(@RequestParam String email, @RequestParam String title) {
+        userService.removeBookFromCart(email, title);
+        return ResponseEntity.status(HttpStatus.OK).body("Book removed from cart");
+    }
+
+    @GetMapping("/getCart")
+    public ResponseEntity getCart(@RequestParam String email) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getCart(email));
+    }
+
+    @GetMapping("/getTotal")
+    public ResponseEntity getTotal(@RequestParam String email) throws ApiExceptionResponse {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getTotal(email));
+    }
+
     @Operation(summary = "Delete a user (set it as inactive)")
     @PutMapping("/delete")
     public ResponseEntity deleteUser(@RequestBody UserDTO user){

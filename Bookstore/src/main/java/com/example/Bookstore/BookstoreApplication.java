@@ -1,34 +1,34 @@
 package com.example.Bookstore;
 
-import com.example.Bookstore.constants.UserType;
-import com.example.Bookstore.dto.*;
-import com.example.Bookstore.mapper.BookMapper;
-import com.example.Bookstore.mapper.BookTypeMapper;
-import com.example.Bookstore.mapper.UserMapper;
-import com.example.Bookstore.model.Book;
-import com.example.Bookstore.model.BookType;
-import com.example.Bookstore.model.Sale;
-import com.example.Bookstore.model.User;
-import com.example.Bookstore.service.BookService;
-import com.example.Bookstore.service.BookTypeService;
-import com.example.Bookstore.service.SaleService;
-import com.example.Bookstore.service.UserService;
+//import com.example.Bookstore.constants.UserType;
+//import com.example.Bookstore.dto.*;
+//import com.example.Bookstore.mapper.BookMapper;
+//import com.example.Bookstore.mapper.BookTypeMapper;
+//import com.example.Bookstore.mapper.UserMapper;
+//import com.example.Bookstore.model.Book;
+//import com.example.Bookstore.model.BookType;
+//import com.example.Bookstore.model.Sale;
+//import com.example.Bookstore.model.User;
+//import com.example.Bookstore.service.BookService;
+//import com.example.Bookstore.service.BookTypeService;
+//import com.example.Bookstore.service.SaleService;
+//import com.example.Bookstore.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
+//import org.springframework.boot.CommandLineRunner;
+//import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.annotation.Validated;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.ArrayList;
-import java.util.List;
+//import springfox.documentation.builders.PathSelectors;
+//import springfox.documentation.builders.RequestHandlerSelectors;
+//import springfox.documentation.spi.DocumentationType;
+//import springfox.documentation.spring.web.plugins.Docket;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
+//
+//import java.util.ArrayList;
+//import java.util.List;
 
 @SpringBootApplication
 @EnableScheduling

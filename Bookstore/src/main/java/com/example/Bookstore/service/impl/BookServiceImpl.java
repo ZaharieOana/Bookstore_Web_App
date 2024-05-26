@@ -1,5 +1,6 @@
 package com.example.Bookstore.service.impl;
 
+import com.example.Bookstore.constants.NotificationEndpoints;
 import com.example.Bookstore.dto.BookDTO;
 import com.example.Bookstore.dto.BookTypeDTO;
 import com.example.Bookstore.mapper.BookMapper;
@@ -10,6 +11,7 @@ import com.example.Bookstore.repository.BookTypeRepository;
 import com.example.Bookstore.service.BookService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +25,8 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
     @Autowired
     private BookTypeRepository bookTypeRepository;
-
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @Override
     public List<BookDTO> findAll() {
@@ -74,6 +77,8 @@ public class BookServiceImpl implements BookService {
         BookType type = bookTypeRepository.findFirstByName(newBook.getType());
         book.setType(type);
         book.setAvailable(true);
+        String notification = "Book " + book.getTitle() + " was successfully added!";
+        template.convertAndSend(NotificationEndpoints.ADD_BOOK_NOTIFICATION, notification);
         return BookMapper.toDTO(bookRepository.save(book));
     }
 
