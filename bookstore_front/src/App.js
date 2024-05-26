@@ -5,7 +5,7 @@ import HomeClient from "./HomeClient";
 import HomeAdmin from "./HomeAdmin";
 import SignUp from "./SignUp";
 import ChangePass from "./ChangePass";
-
+import Cart from "./Cart";
 
 function App() {
   const defaultRoute = window.location.pathname === "/" ? <Redirect to="/log-in"/> : undefined;
@@ -18,6 +18,7 @@ function App() {
           <Route exact path="/admin" element={<HomeAdmin/>}/>
           <Route exact path="/sign-up" element={<SignUp/>}/>
           <Route exact path="/changePassword" element={<ChangePass/>}/>
+          <Route exact path="/cart/:email" element={<Cart/>}/>
         </Switch>
         {defaultRoute}
       </Router>

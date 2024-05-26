@@ -1,12 +1,9 @@
 import React from "react";
-import Button from "@mui/material/Button"
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Container from "@mui/material/Container";
-import axiosInstance from "./axios";
 import Grid from "@mui/material/Grid";
+import axiosInstance from "./axios";
 import history from './history';
-import {useNavigate} from "react-router-dom";
-
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -17,6 +14,7 @@ class SignUp extends React.Component {
             phone: "",
             password: "",
             age: 0,
+            errors: {},
             signupSuccess: {
                 id: 0,
                 role: "CLIENT",
@@ -25,49 +23,85 @@ class SignUp extends React.Component {
     }
 
     handleInput = event => {
-        const {value, name} = event.target;
+        const { value, name } = event.target;
         this.setState({
             [name]: value
         });
-        console.log(value);
+    };
+
+    validate = () => {
+        const errors = {};
+        const { name, email, phone, password, age } = this.state;
+
+        if (name.length < 3 || name.length > 50) {
+            errors.name = "Name size must be between 3 and 50";
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.match(emailPattern)) {
+            errors.email = "Email is not valid";
+        }
+
+        const phonePattern = /^\d{10}$/;
+        if (!phone.match(phonePattern)) {
+            errors.phone = "Phone must be 10 digits";
+        }
+
+        if (password.length < 8 || password.length > 50) {
+            errors.password = "Password size must be between 8 and 50";
+        }
+
+        if (!Number.isInteger(Number(age))) {
+            errors.age = "Age must be a number";
+        } else if (age <= 16) {
+            errors.age = "You need to be at least 16";
+        }
+
+        this.setState({ errors });
+        return Object.keys(errors).length === 0;
     };
 
     onSubmitFunction = event => {
         event.preventDefault();
-        let credentials = {
-            name: this.state.name,
-            email: this.state.email,
-            phone: this.state.phone,
-            password: this.state.password,
-            age: this.state.age,
-        }
 
-        axiosInstance.post("/user/save", credentials)
-            .then(
-                res => {
-                    const val = res.data;
-                    this.setState({
-                        signupSuccess: val
-                    });
-                    console.log("Success");
-                    console.log(this.state.signupSuccess);
-                    this.setState({
-                        signupError: false
-                    });
+        if (this.validate()) {
+            let credentials = {
+                name: this.state.name,
+                email: this.state.email,
+                phone: this.state.phone,
+                password: this.state.password,
+                age: this.state.age,
+            };
 
-                    history.push("/log-in");
-                    window.location.reload();
-                }
-            )
-            .catch(error => {
-                console.log(error)
-                this.setState({
-                    signupError: true
+            axiosInstance.post("/user/save", credentials)
+                .then(
+                    res => {
+                        const val = res.data;
+                        this.setState({
+                            signupSuccess: val
+                        });
+                        console.log("Success");
+                        console.log(this.state.signupSuccess);
+                        this.setState({
+                            signupError: false
+                        });
+
+                        history.push("/log-in");
+                        window.location.reload();
+                    }
+                )
+                .catch(error => {
+                    console.log(error);
+                    this.setState({
+                        signupError: true
+                    });
                 });
-            })
-    }
+        }
+    };
 
     render() {
+        const { errors } = this.state;
+
         return (
             <div className="mainContainer" style={{
                 backgroundImage: `url(/images/dragon.jpg)`,
@@ -81,7 +115,7 @@ class SignUp extends React.Component {
                 backgroundRepeat: 'no-repeat',
             }}>
                 <div align="right">
-                    <Grid maxWidth="sm" style={{padding: "20px"}}>
+                    <Grid maxWidth="sm" style={{ padding: "20px" }}>
                         <form onSubmit={this.onSubmitFunction}>
                             <TextField
                                 variant="outlined"
@@ -94,6 +128,8 @@ class SignUp extends React.Component {
                                 autoComplete="string"
                                 onChange={this.handleInput}
                                 autoFocus
+                                error={!!errors.name}
+                                helperText={errors.name}
                             />
                             <TextField
                                 variant="outlined"
@@ -105,7 +141,8 @@ class SignUp extends React.Component {
                                 name="email"
                                 autoComplete="string"
                                 onChange={this.handleInput}
-                                autoFocus
+                                error={!!errors.email}
+                                helperText={errors.email}
                             />
                             <TextField
                                 variant="outlined"
@@ -117,7 +154,8 @@ class SignUp extends React.Component {
                                 name="phone"
                                 autoComplete="string"
                                 onChange={this.handleInput}
-                                autoFocus
+                                error={!!errors.phone}
+                                helperText={errors.phone}
                             />
                             <TextField
                                 variant="outlined"
@@ -130,6 +168,8 @@ class SignUp extends React.Component {
                                 id="password"
                                 onChange={this.handleInput}
                                 autoComplete="current-password"
+                                error={!!errors.password}
+                                helperText={errors.password}
                             />
                             <TextField
                                 variant="outlined"
@@ -141,14 +181,15 @@ class SignUp extends React.Component {
                                 name="age"
                                 autoComplete="integer"
                                 onChange={this.handleInput}
-                                autoFocus
+                                error={!!errors.age}
+                                helperText={errors.age}
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                style={{backgroundColor: "darkred"}}
+                                style={{ backgroundColor: "darkred" }}
                             >
                                 CreateAccount
                             </Button>
@@ -157,9 +198,9 @@ class SignUp extends React.Component {
                         {this.state.signupError ?  <div style={{color: "red"}}>Invalid data</div> : <div></div>}
                     </Grid>
                 </div>
-            </div>)
+            </div>
+        );
     }
-
 }
 
 export default SignUp;

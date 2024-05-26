@@ -30,7 +30,7 @@ public class SaleController {
 
     @Operation(summary = "Make a sale")
     @PostMapping("/make")
-    public ResponseEntity makeSale(@RequestBody String email) throws Exception {
+    public ResponseEntity makeSale(@RequestParam String email) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(saleService.makeSale(email));
     }
 

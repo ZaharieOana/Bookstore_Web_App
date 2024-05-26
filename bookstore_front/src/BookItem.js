@@ -32,7 +32,7 @@ class BookItem extends React.Component {
                         <Edit />DETAILS
                     </Button>
                     <div>
-                        {this.state.displayDetails ? <BookDetails book={this.props.book} role={this.props.role} selectedCurrencyValue={this.props.selectedCurrencyValue}/> : null}
+                        {this.state.displayDetails ? <BookDetails book={this.props.book} email={this.props.email} role={this.props.role} selectedCurrencyValue={this.props.selectedCurrencyValue}/> : null}
                     </div>
                 </ListItem>
             </React.Fragment>
