@@ -5,6 +5,7 @@ Note:
     D2: 6,5
     A2: 9,5
     D3: 9,2
+    A3: 8,5
 
 Functionalitati A2: <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Clientii primesc un email cand isi creeaza cont <br>
