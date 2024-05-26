@@ -16,3 +16,7 @@ Functionalitati A3: <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Abonare la newsletter pentru clienti <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Schimbare parola <br>
     &nbsp; &nbsp; &nbsp; &nbsp; Descarcare raport de vanzari pentru admini <br>
+
+Functionalitati Proiect: <br>
+    &nbsp; &nbsp; &nbsp; &nbsp; Notificare cand adminul adauga o carte (websockets) <br>
+    &nbsp; &nbsp; &nbsp; &nbsp; Imbunatatiri pe frontend <br>
