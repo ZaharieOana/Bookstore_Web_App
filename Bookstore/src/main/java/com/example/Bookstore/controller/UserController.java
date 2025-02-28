@@ -29,8 +29,8 @@ public class UserController {
     @Autowired
     private EmailService emailService;
 
-    public static final String ACCOUNT_SID = "AC0fe25a2b504b9e15e3f7b3b04feb385b";
-    public static final String AUTH_TOKEN = "e20d9a3dcdd3295202e548c694812eb2";
+    // public static final String ACCOUNT_SID = "";
+    // public static final String AUTH_TOKEN = "";
 
     @Operation(summary = "Get a list of all users")
     @GetMapping("/getAll")
